@@ -28,12 +28,12 @@ public class Main {
             String command = in.next();
             Calculator c = new Calculator();
             try {
-                int result =  c.process(command);
+                int result = c.process(command);
                 System.out.println("********************************************************************************");
                 System.out.println(command + " = " + result);
                 System.out.println("********************************************************************************");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
 

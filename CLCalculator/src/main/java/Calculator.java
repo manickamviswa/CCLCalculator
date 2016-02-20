@@ -60,21 +60,6 @@ public class Calculator {
         }
     }
 
-    private String[] getParameters(String command) throws CLException {
-        String[] result = null;
-        if (command == null) {
-            throw new CLException(CLException.COMMAND_ERROR);
-        }
-
-        String params = command.substring(command.indexOf("(") + 1, command.indexOf(")"));
-        if (params.contains(",")) {
-            result = params.split(",");
-        } else {
-            throw new CLException(CLException.COMMAND_ERROR);
-        }
-        return result;
-    }
-
     private String[] getOperands(String input, Integer operandCount) {
         String[] result = null;
         int count = StringUtils.countMatches(input, ",");
@@ -141,8 +126,8 @@ public class Calculator {
                 }catch(ArithmeticException e){
                     throw new CLException(CLException.DIVIDE_ZERO_ERROR);
                 }
-                        
-                        
+            case "let":
+                
                         
         }
         return 0;
