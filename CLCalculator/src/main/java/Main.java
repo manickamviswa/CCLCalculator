@@ -26,6 +26,7 @@ public class Main {
         builder.append("\t mult(a,b): Multiply two integers \n");
         builder.append("\t div(a,b): Divide two integers\n");
         builder.append("\t let(a,value, operation): Assign variable with a value and execute the operation\n");
+        builder.append("\t\t loglevel error : Set the log level either to Error, Debug or Info. By default it will be Error");
         printOutput(builder.toString());
     }
 
