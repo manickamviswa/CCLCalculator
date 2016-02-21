@@ -17,6 +17,7 @@ public class CLException extends Exception {
     public final static String DIVIDE_ZERO_ERROR = "Divide by zero error. Please check the input";
     public final static String MISSING_PARAMETERS_ERROR = "Missing parameters. Please verify the input parameters";
     public final static String INTEGER_NUMBER_ERROR = "The input should contain only integer value.";
+    public final static String INTEGER_MAX_ERROR = "The inputs should be between -2147483648 and 2147483647";
 
     public CLException(String string) {
         super(string);

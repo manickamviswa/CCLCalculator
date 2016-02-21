@@ -84,12 +84,11 @@ public class Main {
                 } else if (command.toLowerCase().equals("help") || command.toLowerCase().equals("h")) {
                     printHelp();
                 } else {
-                    int result = c.process(command);
+                    Long result = c.process(command);
                     printOutput(command + " = " + result);
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage());
-                e.printStackTrace();
+                logger.error(e.getMessage());                
             }
         }
 

@@ -22,7 +22,7 @@ public class Calculator {
 
     private Map<String, Integer> commands = null;
 
-    private Map<String, Integer> variable = null;
+    private Map<String, Long> variable = null;
 
     public Calculator() {
         commands = new HashMap<>();
@@ -89,6 +89,17 @@ public class Calculator {
         }
     }
 
+    private Boolean checkNumberWithinRange(String number) throws CLException {
+
+        //if (StringUtils.isNumeric(number)) {
+        long value = Long.parseLong(number);
+        if (value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE) {
+            return Boolean.TRUE;
+        } else {
+            throw new CLException(CLException.INTEGER_MAX_ERROR);
+        }
+    }
+
     private String[] getOperands(String input, Integer operandCount) {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering finding operands method");
@@ -138,7 +149,7 @@ public class Calculator {
         return result;
     }
 
-    private Integer evaluate(String input) throws CLException {
+    private Long evaluate(String input) throws CLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering evaluate method");
         }
@@ -147,16 +158,18 @@ public class Calculator {
             logger.info("Found operation:" + operation);
         }
         String[] operands = null;
-        Integer[] operandValue = null;
+        Long[] operandValue = null;
         operands = getOperands(StringUtils.substring(StringUtils.substringAfter(input, "("), 0, StringUtils.substringAfter(input, "(").length() - 1), commands.get(operation));
         if (operands != null) {
-            operandValue = new Integer[operands.length];
+            operandValue = new Long[operands.length];
             if (operation.equalsIgnoreCase("let")) {
                 if (operands[0] != null && operands[1] != null) {
                     if (isFunction(operands[1])) {
                         variable.put(operands[0], evaluate(operands[1]));
                     } else if (StringUtils.isNumeric(operands[1])) {
-                        variable.put(operands[0], Integer.parseInt(operands[1]));
+                        if (checkNumberWithinRange(operands[1])) {
+                            variable.put(operands[0], Long.parseLong(operands[1]));
+                        }
                     } else {
                         throw new CLException(CLException.INTEGER_NUMBER_ERROR);
                     }
@@ -167,7 +180,9 @@ public class Calculator {
                 if (isFunction(operands[i])) {
                     operandValue[i] = evaluate(operands[i]);
                 } else if (StringUtils.isNumeric(operands[i])) {
-                    operandValue[i] = Integer.parseInt(operands[i]);
+                    if (checkNumberWithinRange(operands[i])) {
+                        operandValue[i] = Long.parseLong(operands[i]);
+                    }
                 } else if (variable.keySet().contains(operands[i])) {
                     operandValue[i] = variable.get(operands[i]);
                 } else {
@@ -178,7 +193,7 @@ public class Calculator {
             throw new CLException(CLException.MISSING_PARAMETERS_ERROR);
         }
         if (logger.isInfoEnabled()) {
-            for (Integer value : operandValue) {
+            for (Long value : operandValue) {
                 logger.info("Found operands value:" + value);
             }
         }
@@ -202,7 +217,7 @@ public class Calculator {
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CLException(CLException.MISSING_PARAMETERS_ERROR);
         }
-        return 0;
+        return null;
     }
 
     private Boolean isFunction(String operand) {
@@ -215,7 +230,7 @@ public class Calculator {
         return false;
     }
 
-    public Integer process(String command) throws CLException {
+    public Long process(String command) throws CLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Started processing command");
         }

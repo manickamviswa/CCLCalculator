@@ -52,7 +52,7 @@ public class CalculatorTest {
     public void addTest() throws Exception {
 
         String command = "add(10,2)";
-        Integer result = 12;
+        Long result = 12L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -60,7 +60,7 @@ public class CalculatorTest {
     public void subTest() throws Exception {
 
         String command = "sub(10,2)";
-        Integer result = 8;
+        Long result = 8L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -68,7 +68,7 @@ public class CalculatorTest {
     public void addWithOperationTest() throws Exception {
 
         String command = "add(1, mult(2, 3))";
-        Integer result = 7;
+        Long result = 7L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -76,7 +76,7 @@ public class CalculatorTest {
     public void multiWithOperationTest() throws Exception {
 
         String command = "mult(add(2, 2), div(9, 3))";
-        Integer result = 12;
+        Long result = 12L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -84,7 +84,7 @@ public class CalculatorTest {
     public void assignmentOperationTest() throws Exception {
 
         String command = "let(a, 5, add(a, a))";
-        Integer result = 10;
+        Long result = 10L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -92,7 +92,7 @@ public class CalculatorTest {
     public void assignmentWithOperationTest() throws Exception {
 
         String command = "let(a, 5, let(b, mult(a, 10), add(b, a)))";
-        Integer result = 55;
+        Long result = 55L;
         assertEquals(calculator.process(command), result);
     }
 
@@ -100,7 +100,7 @@ public class CalculatorTest {
     public void mixOperationTest() throws Exception {
 
         String command = "let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b)))";
-        Integer result = 40;
+        Long result = 40L;
         assertEquals(calculator.process(command), result);
     }
 
