@@ -1,6 +1,5 @@
 package ca.clcalculator.main;
 
-
 import ca.clcalculator.exception.CLException;
 import java.util.Scanner;
 import org.apache.log4j.Level;
@@ -19,7 +18,7 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    public static void printHelp() {
+    public void printHelp() {
         StringBuilder builder = new StringBuilder();
 
         builder.append("\t Commands: \n\n");
@@ -28,11 +27,11 @@ public class Main {
         builder.append("\t mult(a,b): Multiply two integers \n");
         builder.append("\t div(a,b): Divide two integers\n");
         builder.append("\t let(a,value, operation): Assign variable with a value and execute the operation\n");
-        builder.append("\t\t loglevel error : Set the log level either to Error, Debug or Info. By default it will be Error");
+        builder.append("\t loglevel error : Set the log level either to Error, Debug or Info. By default it will be Error");
         printOutput(builder.toString());
     }
 
-    public static void changeLogger(String level) {
+    public void changeLogger(String level) {
 
         if (level != null) {
             switch (level.toLowerCase()) {
@@ -53,7 +52,11 @@ public class Main {
         }
     }
 
-    public static void printOutput(String output) {
+    public void showLogLevel() {
+        printOutput("Current log level set to: " + Logger.getRootLogger().getLevel().toString() + " \n To change the log level, please issue 'loglevel info/error/debug'");
+    }
+
+    public void printOutput(String output) {
         System.out.println("********************************************************************************");
         System.out.println(output);
         System.out.println("********************************************************************************");
@@ -64,7 +67,7 @@ public class Main {
         if (logger.isDebugEnabled()) {
             logger.debug("Starting CL Calculator application.....");
         }
-        
+        Main main = new Main();
         System.out.println("********************************************************************************");
         System.out.println("Command Line Calculator");
         System.out.println("Type 'h' or 'help' for help");
@@ -78,19 +81,20 @@ public class Main {
                 if (command.contains("loglevel")) {
                     try {
                         String level = command.split(" ")[1];
-                        changeLogger(level);
+                        main.changeLogger(level);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        throw new CLException(CLException.MISSING_PARAMETERS_ERROR);
+                        main.showLogLevel();
+                        //throw new CLException(CLException.MISSING_PARAMETERS_ERROR);
                     }
 
                 } else if (command.toLowerCase().equals("help") || command.toLowerCase().equals("h")) {
-                    printHelp();
+                    main.printHelp();
                 } else {
                     Long result = c.process(command);
-                    printOutput(command + " = " + result);
+                    main.printOutput(command + " = " + result);
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage());                
+                logger.error(e.getMessage());
             }
         }
 
