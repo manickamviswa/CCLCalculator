@@ -1,10 +1,11 @@
+package ca.clcalculator.main;
+
 
 import ca.clcalculator.exception.CLException;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 /*
@@ -33,6 +34,12 @@ public class Calculator {
         commands.put("let", 3);
     }
 
+    /**
+     * Check whether the command is a valid operation
+     *
+     * @param command
+     * @return
+     */
     private Boolean commandValid(String command) {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering command valid check method");
@@ -46,6 +53,12 @@ public class Calculator {
         return Boolean.FALSE;
     }
 
+    /**
+     * Check the input with matching paranthesis
+     *
+     * @param command
+     * @return
+     */
     private Boolean checkParantheses(String command) {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering paranthesis check method");
@@ -68,6 +81,13 @@ public class Calculator {
         return Boolean.FALSE;
     }
 
+    /**
+     * Retrieve the operation from input string
+     *
+     * @param command
+     * @return
+     * @throws CLException
+     */
     private String getOperation(String command) throws CLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering find operation method");
@@ -89,6 +109,14 @@ public class Calculator {
         }
     }
 
+    /**
+     * Check the input numbers are within the range between INTEGER.MIN_VALUE
+     * and INTEGER.MAX_VALUE
+     *
+     * @param number
+     * @return
+     * @throws CLException
+     */
     private Boolean checkNumberWithinRange(String number) throws CLException {
 
         //if (StringUtils.isNumeric(number)) {
@@ -100,6 +128,13 @@ public class Calculator {
         }
     }
 
+    /**
+     * Retrieve the operands from the input string
+     *
+     * @param input
+     * @param operandCount
+     * @return
+     */
     private String[] getOperands(String input, Integer operandCount) {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering finding operands method");
@@ -149,6 +184,13 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Evaluate the input string to get the result
+     *
+     * @param input
+     * @return
+     * @throws CLException
+     */
     private Long evaluate(String input) throws CLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Entering evaluate method");
@@ -220,6 +262,12 @@ public class Calculator {
         return null;
     }
 
+    /**
+     * Check whether the input string contains operation
+     *
+     * @param operand
+     * @return
+     */
     private Boolean isFunction(String operand) {
         if (logger.isDebugEnabled()) {
             logger.debug("Checking whether the operand is a function");
@@ -230,6 +278,13 @@ public class Calculator {
         return false;
     }
 
+    /**
+     * Validate the input string before evaluation
+     *
+     * @param command
+     * @return
+     * @throws CLException
+     */
     public Long process(String command) throws CLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Started processing command");

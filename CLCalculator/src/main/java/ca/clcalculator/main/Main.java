@@ -1,3 +1,5 @@
+package ca.clcalculator.main;
+
 
 import ca.clcalculator.exception.CLException;
 import java.util.Scanner;

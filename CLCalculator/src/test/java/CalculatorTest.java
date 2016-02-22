@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import ca.clcalculator.main.Calculator;
 import ca.clcalculator.exception.CLException;
 import org.junit.After;
 import org.junit.AfterClass;
