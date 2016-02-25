@@ -1,11 +1,11 @@
 package ca.clcalculator.main;
 
-
 import ca.clcalculator.exception.CLException;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 /*
@@ -120,11 +120,15 @@ public class Calculator {
     private Boolean checkNumberWithinRange(String number) throws CLException {
 
         //if (StringUtils.isNumeric(number)) {
-        long value = Long.parseLong(number);
-        if (value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE) {
-            return Boolean.TRUE;
-        } else {
-            throw new CLException(CLException.INTEGER_MAX_ERROR);
+        try {
+            long value = Long.parseLong(number);
+            if (value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE) {
+                return Boolean.TRUE;
+            } else {
+                throw new CLException(CLException.INTEGER_MAX_ERROR);
+            }
+        } catch (NumberFormatException e) {
+            throw new CLException(CLException.INTEGER_NUMBER_ERROR);
         }
     }
 
@@ -208,9 +212,13 @@ public class Calculator {
                 if (operands[0] != null && operands[1] != null) {
                     if (isFunction(operands[1])) {
                         variable.put(operands[0], evaluate(operands[1]));
-                    } else if (StringUtils.isNumeric(operands[1])) {
+                    } else if (NumberUtils.isNumber(operands[1])) {
                         if (checkNumberWithinRange(operands[1])) {
-                            variable.put(operands[0], Long.parseLong(operands[1]));
+                            try {
+                                variable.put(operands[0], Long.parseLong(operands[1]));
+                            } catch (NumberFormatException e) {
+                                throw new CLException(CLException.INTEGER_NUMBER_ERROR);
+                            }
                         }
                     } else {
                         throw new CLException(CLException.INTEGER_NUMBER_ERROR);
@@ -221,9 +229,13 @@ public class Calculator {
             for (int i = 0; i < operands.length; i++) {
                 if (isFunction(operands[i])) {
                     operandValue[i] = evaluate(operands[i]);
-                } else if (StringUtils.isNumeric(operands[i])) {
+                } else if (NumberUtils.isNumber(operands[i])) {
                     if (checkNumberWithinRange(operands[i])) {
-                        operandValue[i] = Long.parseLong(operands[i]);
+                        try {
+                            operandValue[i] = Long.parseLong(operands[i]);
+                        } catch (NumberFormatException e) {
+                            throw new CLException(CLException.INTEGER_NUMBER_ERROR);
+                        }
                     }
                 } else if (variable.keySet().contains(operands[i])) {
                     operandValue[i] = variable.get(operands[i]);
